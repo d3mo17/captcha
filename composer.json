@@ -1,0 +1,25 @@
+{
+    "description": "Provides a captcha mechanism",
+    "name": "d3mo17/captcha",
+    "version": "0.9.0",
+    "type": "library",
+    "license": "mit",
+    "keywords": ["captcha", "forms", "security"],
+    "authors": [
+      {
+        "name": "Daniel Moritz"
+      }
+    ],
+    "archive": {
+        "exclude": ["/tests", "/examples"]
+    },
+    "require": {
+        "php": ">=7.4"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9"
+    },
+    "autoload": {
+      "psr-4": { "DMo\\Captcha\\": "" }
+    }
+}
