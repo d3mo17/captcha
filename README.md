@@ -1,7 +1,8 @@
 
 # Captcha
 
-A library trying to secure form submits.
+A library trying to secure form submits without the need of separate user
+input (code read from distorted image).
 
 ## Mode of operation
 

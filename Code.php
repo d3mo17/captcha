@@ -8,7 +8,7 @@ namespace DMo\Captcha;
 class Code {
     /**
      * Defines the length of output values in code array.
-     * Reasonable range is 1 to 13
+     * Reasonable range is 5 to 13
      * 
      * @var int
      */
@@ -86,7 +86,12 @@ class Code {
         $hashChunks = $this->getHashChunks();
 
         $index = reset($indices);
-        $code[$index] = $this->currentSecondInPeriod() . ':' . $this->getMinuteOfDay();
+        $code[$index] = sprintf(
+            '%s:%s:%s',
+            $this->currentSecondInPeriod(),
+            $this->getTimeHash($this->currentSecondInPeriod(), $this->getMinuteOfDay()), 
+            $this->getMinuteOfDay()
+        );
         $chunk = reset($hashChunks);
         while ($index = next($indices)) {
             $code[$index] = $chunk;
@@ -103,7 +108,7 @@ class Code {
      */
     public function validate($codeArray) : bool {
         $removedEmpty = array_diff($codeArray, ['']);
-        list($secondToCompare, $minuteToCompare) = explode(':', reset($removedEmpty));
+        list($secondToCompare, $checkHash, $minuteToCompare) = explode(':', reset($removedEmpty));
 
         $minuteOfDay = $this->getMinuteOfDay() < $minuteToCompare
             ? (24*60) + $this->getMinuteOfDay()
@@ -125,6 +130,11 @@ class Code {
 
         if (!$this->validateSignature($codeArray)) {
             $this->error = new \Error('Signature validation of code array fails!', 1645535534);
+            return false;
+        }
+
+        if (!$this->validateTimeValues($checkHash, $secondToCompare, $minuteToCompare)) {
+            $this->error = new \Error('Validation hash doesn\'t correspond to time values!', 1645535755);
             return false;
         }
 
@@ -258,5 +268,27 @@ class Code {
         }
 
         return false;
+    }
+
+    /**
+     * @param int $seconds
+     * @param int $minutes
+     * @return string
+     */
+    private function getTimeHash($seconds, $minutes) {
+        return substr(
+            sha1($this->secretPepper . $seconds . $minutes),
+            $minutes % 27, $this->CHUNK_LENGTH
+        );
+    }
+
+    /**
+     * @param string $checkHash
+     * @param int $seconds
+     * @param int $minutes
+     * @return bool
+     */
+    private function validateTimeValues($checkHash, $seconds, $minutes) {
+        return $checkHash === $this->getTimeHash($seconds, $minutes);
     }
 }

@@ -111,5 +111,15 @@ class CodeTest extends TestCase
         $this->assertCount(2, $diff);
         $this->assertFalse($this->cap6->validate($code));
         $this->assertEquals(1645535534, $this->cap6->getLastError()->getCode());
+
+        // Validation of hash with time values fails
+        $code = $this->cap1->get();
+        $values = explode(':', $code[1]);
+        $values[1] .= 'f';
+        $code[1] = implode(':', $values);
+        $diff = array_diff($code, $this->cap6->get());
+        $this->assertCount(1, $diff);
+        $this->assertFalse($this->cap6->validate($code));
+        $this->assertEquals(1645535755, $this->cap6->getLastError()->getCode());
     }
 }
