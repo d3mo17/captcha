@@ -7,11 +7,7 @@ $code = new \DMo\Captcha\Code();
 $html = (new \DMo\Captcha\HTMLGenerator($code))->setInputType();
 
 if (!empty($_POST["sent"])) {
-    $responsedCode = array_map(function ($name) {
-        return $_POST[$name];
-    }, $html->getInputNames());
-
-    if (!$code->validate($responsedCode)) {
+    if (!$code->validate($html->restoreCode())) {
         $errorMsg = $code->getLastError()->getMessage();
     }
 }

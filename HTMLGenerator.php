@@ -35,6 +35,20 @@ class HTMLGenerator {
     }
 
     /**
+     * @param array $requestParams
+     * @return array
+     */
+    public function restoreCode(array $requestParams = []) : array {
+        if (empty($requestParams)) {
+            $requestParams = $_REQUEST ?: ($_POST ?: $_GET);
+        }
+
+        return array_map(function ($name) use ($requestParams) {
+            return $requestParams[$name];
+        }, $this->getInputNames());
+    }
+
+    /**
      * @return string
      */
     public function get() {
