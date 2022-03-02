@@ -1,7 +1,7 @@
 {
     "description": "Provides a captcha mechanism",
     "name": "d3mo17/captcha",
-    "version": "0.9.4",
+    "version": "0.9.6",
     "type": "library",
     "license": "mit",
     "readme": "README.md",
