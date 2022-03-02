@@ -44,7 +44,7 @@ class Code {
     /**
      * Array of randomly ordered decimal numbers which have at least two same bits in
      * binary signature (means at least two zeros and two ones).
-     * This is to determine which keys in code array have to be set an which last empty.
+     * This is to determine which keys in code array have to be set and which last empty.
      * The code array will have seven keys, so this is the reason why only numbers with
      * at most seven bits are used.
      * 
@@ -142,7 +142,8 @@ class Code {
     }
 
     /**
-     * Returns theLast Error, if there is one (after validation fails)
+     * Returns the last error, if there is one (after validation fails)
+     * 
      * @return \Error|null
      */
     public function getLastError() {
