@@ -51,7 +51,7 @@ class HTMLGenerator {
     /**
      * @return string
      */
-    public function get() {
+    public function get() : string {
         $code = $this->code->get();
         $codeElem = reset($code);
         $output = array_map(function ($name) use (&$codeElem, &$code) {
@@ -69,16 +69,49 @@ class HTMLGenerator {
     /**
      * @return array
      */
-    public function getInputNames() {
+    public function getInputNames() : array {
         return $this->inputNames;
+    }
+
+    /**
+     * @param array $inputNames
+     * @return $this
+     * 
+     * @throws LengthException
+     */
+    public function setInputNames(array $inputNames) {
+        count($inputNames) !== 7 && self::spit(
+            \LengthException::class,
+            'There have to be seven names for input elements!',
+            1646092907
+        );
+        $this->inputNames = $inputNames;
+        return $this;
     }
 
     /**
      * @param string $type
      * @return $this
+     * 
+     * @throws DomainException
      */
-    public function setInputType($type = 'text') {
+    public function setInputType(string $type = 'text') {
+        !in_array($type, ['hidden', 'text']) && self::spit(
+            \DomainException::class,
+            'Use value "hidden" or "text" for type!',
+            1646092504
+        );
         $this->type = $type;
         return $this;
+    }
+
+    /**
+     * @param string $exceptionType
+     * @param string $message
+     * @param int $code
+     * @return void
+     */
+    final static private function spit(string $exceptionType, string $message, int $code) : void {
+        throw new $exceptionType($message, $code);
     }
 }
