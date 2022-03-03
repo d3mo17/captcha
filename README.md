@@ -7,18 +7,19 @@ input (code read from distorted image).
 ## Mode of operation
 
 Class "Code" generates an array with seven keys. It depends on the current
-server time which keys were set with values and which not. The idea is to
-create seven input elements in a form, put the values from the generated array
-to the input elements, submit the values along with the other input from user,
-restore the original code array from incoming request parameters and validate
-the restored array against class "Code" again.
+server time which keys will become set with values and which not. The idea is
+to create seven input elements in a form, put the values from the generated
+array into the input elements, submit these values along with the other input
+data from user, restore the original code array from incoming request on server
+side and validate the restored array against class "Code" again.
 
 So basically the only methods you need after instance object from class
 `\DMo\Captcha\Code`, are `get` to fetch the generated code and `validate` to
 compare restored array from request.
 
-You can use class `\DMo\Captcha\HTMLGenerator` to create the html-code for
-the input elements from instance of class `\DMo\Captcha\Code`.
+You can use class `\DMo\Captcha\HTMLGenerator` to generate the html-code for
+the input elements from instance of class `\DMo\Captcha\Code` and also to
+restore the code array from incoming request parameters after the form submit.
 
 Please have a look to the examples for more clarity.
 
