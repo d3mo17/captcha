@@ -111,7 +111,7 @@ class HTMLGenerator {
      * @param int $code
      * @return void
      */
-    final static private function spit(string $exceptionType, string $message, int $code) : void {
+    static private function spit(string $exceptionType, string $message, int $code) : void {
         throw new $exceptionType($message, $code);
     }
 }

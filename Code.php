@@ -68,8 +68,8 @@ class Code {
      * @param int $time
      */
     public function __construct(
-        $secretPepper = '<SecretString>',
-        $time = null
+        string $secretPepper = '<SecretString>',
+        int $time = null
     ) {
         $this->secretPepper = $secretPepper;
         $this->timestamp = $time ?: time();
@@ -106,7 +106,7 @@ class Code {
      * 
      * @return bool
      */
-    public function validate($codeArray) : bool {
+    public function validate(array $codeArray) : bool {
         $removedEmpty = array_diff($codeArray, ['']);
         list($secondToCompare, $checkHash, $minuteToCompare) = explode(':', reset($removedEmpty));
 
@@ -276,7 +276,7 @@ class Code {
      * @param int $minutes
      * @return string
      */
-    private function getTimeHash($seconds, $minutes) {
+    private function getTimeHash(int $seconds, int $minutes) : string {
         return substr(
             sha1($this->secretPepper . $seconds . $minutes),
             $minutes % 27, $this->CHUNK_LENGTH
@@ -289,7 +289,7 @@ class Code {
      * @param int $minutes
      * @return bool
      */
-    private function validateTimeValues($checkHash, $seconds, $minutes) {
+    private function validateTimeValues(string $checkHash, int $seconds, int $minutes) : bool {
         return $checkHash === $this->getTimeHash($seconds, $minutes);
     }
 }
